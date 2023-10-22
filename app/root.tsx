@@ -1,5 +1,9 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
+import type {
+  LoaderFunctionArgs,
+  LinksFunction,
+  ActionFunctionArgs,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -9,8 +13,29 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import tailwindCSS from "./tailwind.css";
+import { Header } from "./components/Header";
+import { USER_SESSION_KEY, logout, sessionStorage } from "./session.server";
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  return logout(request);
+};
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const cookie = request.headers.get("Cookie");
+  const session = await sessionStorage.getSession(cookie);
+
+  const userId = session.get(USER_SESSION_KEY);
+  return userId ?? null;
+};
+
 export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+  ...(cssBundleHref
+    ? [
+        { rel: "stylesheet", href: cssBundleHref },
+        { rel: "stylesheet", href: tailwindCSS },
+      ]
+    : [{ rel: "stylesheet", href: tailwindCSS }]),
 ];
 
 export default function App() {
@@ -19,13 +44,35 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* All meta exports on all routes will go here */}
         <Meta />
+
+        {/* All link exports on all routes will go here */}
         <Links />
       </head>
-      <body>
-        <Outlet />
+
+      <body className="bg-gray-600  text-white">
+        <div>
+          <Header />
+
+          <main className="px-4">
+            {/* Child routes go here */}
+            <Outlet />
+          </main>
+        </div>
+
+        {/* Manages scroll position for client-side transitions */}
+        {/* If you use a nonce-based content security policy for scripts, you must provide the `nonce` prop. Otherwise, omit the nonce prop as shown here. */}
         <ScrollRestoration />
+
+        {/* Script tags go here */}
+        {/* If you use a nonce-based content security policy for scripts, you must provide the `nonce` prop. Otherwise, omit the nonce prop as shown here. */}
         <Scripts />
+
+        {/* Sets up automatic reload when you change code */}
+        {/* and only does anything during development */}
+        {/* If you use a nonce-based content security policy for scripts, you must provide the `nonce` prop. Otherwise, omit the nonce prop as shown here. */}
         <LiveReload />
       </body>
     </html>

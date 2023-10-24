@@ -1,41 +1,26 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type {
-  LoaderFunctionArgs,
-  LinksFunction,
-  ActionFunctionArgs,
-} from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+import { cssBundleHref } from '@remix-run/css-bundle';
+import type { LoaderFunctionArgs, LinksFunction } from '@remix-run/node';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
-import tailwindCSS from "./tailwind.css";
-import { Header } from "./components/Header";
-import { USER_SESSION_KEY, logout, sessionStorage } from "./session.server";
-
-export const action = async ({ request }: ActionFunctionArgs) => {
-  return logout(request);
-};
+import tailwindCSS from './tailwind.css';
+import { Header } from './components/Header';
+import { USER_SESSION_KEY, sessionStorage } from './services/session.server';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const cookie = request.headers.get("Cookie");
+  const cookie = request.headers.get('Cookie');
   const session = await sessionStorage.getSession(cookie);
 
-  const userId = session.get(USER_SESSION_KEY);
-  return userId ?? null;
+  const credentials = session.get(USER_SESSION_KEY);
+  return credentials ?? null;
 };
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref
     ? [
-        { rel: "stylesheet", href: cssBundleHref },
-        { rel: "stylesheet", href: tailwindCSS },
+        { rel: 'stylesheet', href: cssBundleHref },
+        { rel: 'stylesheet', href: tailwindCSS },
       ]
-    : [{ rel: "stylesheet", href: tailwindCSS }]),
+    : [{ rel: 'stylesheet', href: tailwindCSS }]),
 ];
 
 export default function App() {

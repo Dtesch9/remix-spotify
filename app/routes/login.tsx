@@ -4,13 +4,6 @@ import { redirectToSpotifyAuthentication } from '~/services';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   return redirectToSpotifyAuthentication();
-
-  // await createUserSession({
-  //   redirectTo: '/',
-  //   remember: false,
-  //   request,
-  //   credentials: { access_token: 'fsdf', expires_in: 3600, token_type: 'Bearer' },
-  // });
 };
 
 export default function Login() {

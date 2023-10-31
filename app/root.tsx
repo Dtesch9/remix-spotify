@@ -1,17 +1,13 @@
 import { cssBundleHref } from '@remix-run/css-bundle';
-import type { LoaderFunctionArgs, LinksFunction } from '@remix-run/node';
+import { json, type LinksFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
-import tailwindCSS from './tailwind.css';
 import { Header } from './components/Header';
-import { USER_SESSION_KEY, sessionStorage } from './services/session.server';
+import { getUser } from './models/user';
+import tailwindCSS from './tailwind.css';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const cookie = request.headers.get('Cookie');
-  const session = await sessionStorage.getSession(cookie);
-
-  const credentials = session.get(USER_SESSION_KEY);
-  return credentials ?? null;
+  return json(await getUser(request));
 };
 
 export const links: LinksFunction = () => [

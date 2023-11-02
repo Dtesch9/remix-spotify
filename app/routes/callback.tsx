@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import invariant from 'tiny-invariant';
 import { parse } from 'valibot';
-import { SpotifyCredentialsSchema, createUserSession } from '~/services';
+import { SpotifyCredentialsSchema, createUserSession } from '@/services';
 
 invariant(process.env.SPOTIFY_CLIENT_ID, 'SPOTIFY_CLIENT_ID must be set');
 invariant(process.env.SPOTIFY_SECRET, 'SPOTIFY_SECRET be set');

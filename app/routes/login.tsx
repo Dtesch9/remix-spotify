@@ -1,6 +1,6 @@
 import { type ActionFunctionArgs } from '@remix-run/node';
 import { Form } from '@remix-run/react';
-import { redirectToSpotifyAuthentication } from '~/services';
+import { redirectToSpotifyAuthentication } from '@/services';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   return redirectToSpotifyAuthentication();

@@ -4,7 +4,7 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@re
 
 import { Header } from './components/Header';
 import { getUser } from './models/user';
-import tailwindCSS from './tailwind.css';
+import tailwindCSS from './globals.css';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json(await getUser(request));

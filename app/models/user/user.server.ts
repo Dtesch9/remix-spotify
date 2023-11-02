@@ -1,5 +1,5 @@
 import { safeParse } from 'valibot';
-import { getUserCredentials } from '~/services';
+import { getUserCredentials } from '@/services';
 import { UserSchema } from './user.types';
 
 const SPOTIFY_API = 'https://api.spotify.com/v1/me';

@@ -2,7 +2,6 @@ import { cssBundleHref } from '@remix-run/css-bundle';
 import { json, type LinksFunction, type LoaderFunctionArgs } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
-import { Header } from './components/Header';
 import { getUser } from './models/user';
 import tailwindCSS from './globals.css';
 
@@ -33,15 +32,8 @@ export default function App() {
         <Links />
       </head>
 
-      <body className="bg-gray-600  text-white">
-        <div>
-          <Header />
-
-          <main className="px-4">
-            {/* Child routes go here */}
-            <Outlet />
-          </main>
-        </div>
+      <body className="bg-black  text-white min-h-screen">
+        <Outlet />
 
         {/* Manages scroll position for client-side transitions */}
         {/* If you use a nonce-based content security policy for scripts, you must provide the `nonce` prop. Otherwise, omit the nonce prop as shown here. */}

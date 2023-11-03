@@ -1,3 +1,4 @@
+import { MainLayout } from '@/components/layouts/MainLayout';
 import { type MetaFunction } from '@remix-run/node';
 
 export const meta: MetaFunction = () => {
@@ -16,8 +17,8 @@ export const meta: MetaFunction = () => {
 
 export default function Home() {
   return (
-    <main>
+    <MainLayout>
       <p>home</p>
-    </main>
+    </MainLayout>
   );
 }

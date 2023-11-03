@@ -59,12 +59,15 @@ export async function createUserSession(args: CreateSessionArgs) {
   });
 }
 
-export async function logout(request: Request) {
+export async function destroySession(request: Request) {
   const session = await getSession(request);
+  return sessionStorage.destroySession(session);
+}
 
+export async function logout(request: Request) {
   return redirect('/', {
     headers: {
-      'Set-Cookie': await sessionStorage.destroySession(session),
+      'Set-Cookie': await destroySession(request),
     },
   });
 }

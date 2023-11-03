@@ -10,30 +10,32 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from '@ui/dropdown-menu';
-import { Link, useFetcher } from '@remix-run/react';
+import { Link, useSubmit } from '@remix-run/react';
 import type { MouseEvent } from 'react';
 import { parse } from 'valibot';
 
 export const Header = () => {
-  const fetcher = useFetcher();
+  const submit = useSubmit();
   const sessionData = useMatchesData('root');
 
   const user = parse(MaybeUserSchema, sessionData);
 
   function logout(event: MouseEvent<HTMLButtonElement>) {
-    fetcher.submit(event.currentTarget.form, { action: '/logout', method: 'post' });
+    submit(event.currentTarget.form, { action: '/logout', method: 'post' });
   }
 
   return (
-    <header className="flex justify-between bg-zinc-600 p-4">
+    <header className="flex items-center justify-between bg-neutral-900 p-4 rounded-lg min-h-[72px]">
       <Link to="/">Remix | Spotify</Link>
 
       {user ? (
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger className="rounded-full">
             <Avatar className="select-none">
               <AvatarImage src={user.images[0].url} alt={user.display_name} />
-              <AvatarFallback>User</AvatarFallback>
+              <AvatarFallback asChild>
+                <img src={user.images[0].url} alt={user.display_name} />
+              </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
 

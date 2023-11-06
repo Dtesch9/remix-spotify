@@ -68,6 +68,7 @@ export async function logout(request: Request) {
   return redirect('/', {
     headers: {
       'Set-Cookie': await destroySession(request),
+      'Cache-Control': 'no-store, max-age=0, s-maxage=0',
     },
   });
 }

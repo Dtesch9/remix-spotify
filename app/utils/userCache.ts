@@ -11,7 +11,7 @@ const cache = new Map<'user', CacheMeta>();
 
 const _shouldRevalidate = (cache?: CacheMeta) => !cache?.user || hasExpire(timeToRevalidate(cache));
 
-export function createUserCache() {
+export function getUserCache() {
   function get() {
     return cache.get('user')?.user || null;
   }
@@ -20,11 +20,15 @@ export function createUserCache() {
     cache.set('user', { user, hitAt: Date.now(), revalidateTime });
   }
 
+  function clear() {
+    cache.delete('user');
+  }
+
   function shouldRevalidate() {
     return _shouldRevalidate(cache.get('user'));
   }
 
-  return { get, set, shouldRevalidate };
+  return { get, set, clear, shouldRevalidate };
 }
 /******************************************************************************/
 

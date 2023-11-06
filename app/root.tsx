@@ -5,27 +5,22 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@re
 
 import { getUser } from './models/user';
 import tailwindCSS from './globals.css';
-import { createUserCache } from './utils';
-
-const userCache = createUserCache();
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return { 'cache-control': loaderHeaders.get('cache-control') ?? '' };
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  if (!userCache.shouldRevalidate()) return json(userCache.get());
-
   const user = await getUser(request);
   if (user) {
-    userCache.set({ user, revalidateTime: 1 });
+    return json(user, {
+      headers: {
+        'Cache-Control': 'private, max-age=60, s-maxage=60',
+      },
+    });
   }
 
-  return json(user, {
-    headers: {
-      'Cache-Control': 'private, max-age=60, s-maxage=60',
-    },
-  });
+  return json(null, { status: 200 });
 };
 
 export const links: LinksFunction = () => [

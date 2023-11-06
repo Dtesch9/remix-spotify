@@ -13,6 +13,7 @@ import {
 import { Link, useSubmit } from '@remix-run/react';
 import type { MouseEvent } from 'react';
 import { parse } from 'valibot';
+import { cn } from '@/lib/utils';
 
 export const Header = () => {
   const submit = useSubmit();
@@ -28,8 +29,6 @@ export const Header = () => {
     <header className="flex items-center justify-between bg-neutral-900 p-4 rounded-lg min-h-[72px]">
       <Link to="/">Remix | Spotify</Link>
 
-      <Link to="/login">login</Link>
-
       {user ? (
         <DropdownMenu>
           <DropdownMenuTrigger className="rounded-full">
@@ -42,19 +41,36 @@ export const Header = () => {
             </Avatar>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end" className="rounded-md bg-white p-2 text-violet-400">
+          <DropdownMenuContent
+            align="end"
+            className={cn([
+              'rounded-md',
+              'bg-white',
+              'p-2',
+              'text-violet-400',
+              '[&>:where(a,button)]:text-violet-400',
+              '[&>:where(a,button)]:w-full',
+              '[&>:where(a,button)]:px-1',
+              '[&>:where(a,button)]:text-left',
+              '[&>:where(a,button)]:hover:border-none',
+              '[&>:where(a,button)]:hover:text-violet-600',
+              '[&>:where(a,button):focus]:text-violet-600',
+              '[&>:where(a,button):focus-visible]:text-violet-600',
+              '[&>:where(a,button):focus-visible]:outline-violet-600',
+              '[&>:where(a,button):hover:focus-visible]:outline-none',
+            ])}
+          >
             <DropdownMenuArrow />
 
             <DropdownMenuLabel className="text-violet-900">{user.display_name}</DropdownMenuLabel>
             <DropdownMenuSeparator className="my-1 h-[1px] bg-violet-300" />
 
             <DropdownMenuItem asChild>
-              <button
-                onClick={logout}
-                className="w-full px-1 text-left hover:border-none hover:text-violet-600 focus-visible:text-violet-600 focus-visible:outline-violet-600 hover:focus-visible:outline-none"
-              >
-                Logout
-              </button>
+              <Link to="/friends">Friends</Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild>
+              <button onClick={logout}>Logout</button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

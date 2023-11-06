@@ -1,12 +1,31 @@
 import { cssBundleHref } from '@remix-run/css-bundle';
-import { json, type LinksFunction, type LoaderFunctionArgs } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import type { HeadersFunction, LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
 import { getUser } from './models/user';
 import tailwindCSS from './globals.css';
+import { createUserCache } from './utils';
+
+const userCache = createUserCache();
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return { 'cache-control': loaderHeaders.get('cache-control') ?? '' };
+};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  return json(await getUser(request));
+  if (!userCache.shouldRevalidate()) return json(userCache.get());
+
+  const user = await getUser(request);
+  if (user) {
+    userCache.set({ user, revalidateTime: 1 });
+  }
+
+  return json(user, {
+    headers: {
+      'Cache-Control': 'private, max-age=60, s-maxage=60',
+    },
+  });
 };
 
 export const links: LinksFunction = () => [

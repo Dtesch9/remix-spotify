@@ -28,11 +28,14 @@ export const Header = () => {
     <header className="flex items-center justify-between bg-neutral-900 p-4 rounded-lg min-h-[72px]">
       <Link to="/">Remix | Spotify</Link>
 
+      <Link to="/login">login</Link>
+
       {user ? (
         <DropdownMenu>
           <DropdownMenuTrigger className="rounded-full">
             <Avatar className="select-none">
               <AvatarImage src={user.images[0].url} alt={user.display_name} />
+
               <AvatarFallback asChild>
                 <img src={user.images[0].url} alt={user.display_name} />
               </AvatarFallback>

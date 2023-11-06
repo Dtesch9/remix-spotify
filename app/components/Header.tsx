@@ -26,7 +26,7 @@ export const Header = () => {
   }
 
   return (
-    <header className="flex items-center justify-between bg-neutral-900 p-4 rounded-lg min-h-[72px]">
+    <header className="flex justify-between items-center bg-neutral-900 py-4 px-6 rounded-lg min-h-[72px]">
       <Link to="/">Remix | Spotify</Link>
 
       {user ? (

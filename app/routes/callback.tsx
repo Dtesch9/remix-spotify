@@ -33,7 +33,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   return createUserSession({
     redirectTo: '/',
-    remember: false,
+    remember: true,
     request,
     credentials,
   });

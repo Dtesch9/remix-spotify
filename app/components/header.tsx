@@ -14,10 +14,13 @@ import { Link, useSubmit } from '@remix-run/react';
 import type { MouseEvent } from 'react';
 import { parse } from 'valibot';
 import { cn } from '@/lib/utils';
+import { InputSearch, InputGroup, SearchIcon } from '@ui/input-search';
 
 export const Header = () => {
   const submit = useSubmit();
+
   const sessionData = useMatchesData('root');
+  const pathname = useMatchesData('routes/search');
 
   const user = parse(MaybeUserSchema, sessionData);
 
@@ -25,9 +28,15 @@ export const Header = () => {
     submit(event.currentTarget.form, { action: '/logout', method: 'post' });
   }
 
+  const needSearchBar = pathname === '/search';
+
   return (
     <header className="flex justify-between items-center bg-neutral-900 py-4 px-6 rounded-lg min-h-[72px]">
-      <Link to="/">Remix | Spotify</Link>
+      <InputGroup className={cn(needSearchBar ? 'visible' : 'invisible select-none')}>
+        <SearchIcon />
+
+        <InputSearch className={cn('max-w-xs rounded-full')} placeholder="Search" />
+      </InputGroup>
 
       {user ? (
         <DropdownMenu>

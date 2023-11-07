@@ -1,4 +1,4 @@
-import { MainLayout } from '@/components/layouts/MainLayout';
+import { MainLayout } from '@/components/layouts/main-layout';
 import type { MetaFunction } from '@remix-run/node';
 
 export const meta: MetaFunction = () => {

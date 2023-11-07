@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
-import { Header } from '../Header';
-import { Sidebar } from '../Sidebar';
+import { Header } from '../header';
+import { Sidebar } from '../sidebar';
 import { cn } from '@/lib/utils';
 
 type OmitChildren<T> = Omit<T, 'children'>;

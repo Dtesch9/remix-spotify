@@ -1,7 +1,9 @@
+import { SidebarNav } from './sidebar-nav';
+
 export const Sidebar = () => {
   return (
     <aside className="flex w-[420px] min-w-[300px] min-h-full flex-col justify-start items-start gap-2 resize-x overflow-auto">
-      <div className="self-stretch h-40 bg-neutral-900 rounded-lg flex-col justify-start items-start flex">Content</div>
+      <SidebarNav />
 
       <div className="h-full flex-1 self-stretch bg-neutral-900 rounded-lg flex-col justify-start items-start flex p-2">
         <div className="self-stretch grow shrink basis-0 flex-col justify-start items-start flex">

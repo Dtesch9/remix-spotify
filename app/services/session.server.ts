@@ -1,7 +1,8 @@
 import { createCookieSessionStorage, redirect } from '@remix-run/node';
 import invariant from 'tiny-invariant';
-import { SpotifyCredentialsSchema, type SpotifyCredentials } from './spotify';
 import { safeParse } from 'valibot';
+import type { SpotifyCredentials } from './spotify/auth/spotify.utils';
+import { SpotifyCredentialsSchema } from './spotify/auth/spotify.utils';
 
 export const USER_SESSION_KEY = 'credentials:meta';
 

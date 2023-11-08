@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MaybeUserSchema } from '@/models/user/user.types';
+import { MaybeUserSchema } from '@/services/spotify/user/';
 import { useMatchesData } from '@/utils';
 import {
   DropdownMenuItem,
@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from '@ui/dropdown-menu';
-import { Link, useSubmit } from '@remix-run/react';
+import { Form, Link, useSubmit } from '@remix-run/react';
 import type { MouseEvent } from 'react';
 import { parse } from 'valibot';
 import { cn } from '@/lib/utils';
@@ -32,11 +32,13 @@ export const Header = () => {
 
   return (
     <header className="flex justify-between items-center bg-neutral-900 py-4 px-6 rounded-lg min-h-[72px]">
-      <InputGroup className={cn(needSearchBar ? 'visible' : 'invisible select-none')}>
-        <SearchIcon />
+      <Form>
+        <InputGroup className={cn(needSearchBar ? 'visible' : 'invisible select-none')}>
+          <SearchIcon />
 
-        <InputSearch className={cn('max-w-xs rounded-full')} placeholder="Search" />
-      </InputGroup>
+          <InputSearch className={cn('max-w-xs rounded-full')} placeholder="Search" name="q" />
+        </InputGroup>
+      </Form>
 
       {user ? (
         <DropdownMenu>

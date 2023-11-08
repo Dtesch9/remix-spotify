@@ -3,7 +3,7 @@ import { json } from '@remix-run/node';
 import type { HeadersFunction, LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
-import { getUser } from './models/user';
+import { getLoggedUser } from './services/spotify/user';
 import tailwindCSS from './globals.css';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -11,7 +11,7 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const user = await getUser(request);
+  const user = await getLoggedUser(request);
   if (user) {
     return json(user, {
       headers: {

@@ -1,4 +1,4 @@
-import type { MaybeUser } from '@/models/user';
+import type { MaybeUser } from '@/services/spotify/user';
 
 type CacheMeta = {
   user: MaybeUser;

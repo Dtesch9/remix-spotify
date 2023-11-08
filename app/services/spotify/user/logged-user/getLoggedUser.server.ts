@@ -1,10 +1,10 @@
 import { safeParse } from 'valibot';
 import { getUserCredentials, logout } from '@/services';
-import { UserSchema } from './user.types';
+import { UserSchema } from './getLoggedUser.types';
 
 const SPOTIFY_API = 'https://api.spotify.com/v1/me';
 
-export async function getUser(request: Request) {
+export async function getLoggedUser(request: Request) {
   const credentials = await getUserCredentials(request);
 
   if (!credentials) return null;

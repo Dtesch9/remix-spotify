@@ -1,16 +1,20 @@
 import { cn } from '@/lib/utils';
 import type { LucideProps } from 'lucide-react';
-import { Search } from 'lucide-react';
-import type { FocusEvent, HTMLAttributes } from 'react';
+import type { ComponentPropsWithoutRef, FocusEvent, HTMLAttributes } from 'react';
 import { createContext, forwardRef, useCallback, useContext, useMemo, useState } from 'react';
 import type { InputProps } from './input';
 import { Input } from './input';
 
-const InputGroupContext = createContext({ isInputFocused: false, setIsInputFocused: (isFocused: boolean) => {} });
+type InputGroupContextType = {
+  isInputFocused: boolean;
+  setIsInputFocused: (isFocused: boolean) => void;
+};
+
+const InputGroupContext = createContext<InputGroupContextType | undefined>(void 0);
 const useInputGroup = () => {
   const context = useContext(InputGroupContext);
 
-  if (!context) throw 'You forgot to wrap with InputGroup provider';
+  if (!context) throw 'You forgot to wrap some input component with InputGroup provider';
 
   return useMemo(() => context, [context]);
 };
@@ -50,15 +54,17 @@ export const InputGroup = ({ className, ...props }: HTMLAttributes<HTMLInputElem
 };
 /******************************************************************************/
 
-export const SearchIcon = ({ className, ...props }: LucideProps) => {
+export const LeftElement = ({ className, children, ...props }: ComponentPropsWithoutRef<'span'>) => {
   const { isInputFocused } = useInputGroup();
 
   return (
-    <Search
-      data-focus={isInputFocused}
+    <span
       className={cn('absolute left-2 text-stone-500 group-hover:text-white', 'data-[focus=true]:text-white', className)}
       {...props}
-    />
+      data-focus={isInputFocused}
+    >
+      {children}
+    </span>
   );
 };
 
@@ -84,6 +90,7 @@ export const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>((props
   return (
     <Input
       type={type}
+      autoComplete="off"
       className={cn('pl-9', className)}
       ref={ref}
       onFocus={handleInputFocus}

@@ -14,7 +14,8 @@ import { Form, Link, useSubmit } from '@remix-run/react';
 import type { MouseEvent } from 'react';
 import { parse } from 'valibot';
 import { cn } from '@/lib/utils';
-import { InputSearch, InputGroup, SearchIcon } from '@ui/input-search';
+import { InputSearch, InputGroup, LeftElement } from '@ui/input-search';
+import { Search } from 'lucide-react';
 
 export const Header = () => {
   const submit = useSubmit();
@@ -34,7 +35,9 @@ export const Header = () => {
     <header className="flex justify-between items-center bg-neutral-900 py-4 px-6 rounded-lg min-h-[72px]">
       <Form>
         <InputGroup className={cn(needSearchBar ? 'visible' : 'invisible select-none')}>
-          <SearchIcon />
+          <LeftElement>
+            <Search />
+          </LeftElement>
 
           <InputSearch className={cn('max-w-xs rounded-full')} placeholder="Search" name="q" />
         </InputGroup>

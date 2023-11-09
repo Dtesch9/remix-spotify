@@ -7,9 +7,11 @@
     "build": "remix build",
     "dev": "remix dev --manual",
     "start": "remix-serve ./build/index.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate": "drizzle-kit generate:pg"
   },
   "dependencies": {
+    "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@remix-run/css-bundle": "^2.1.0",
@@ -18,8 +20,10 @@
     "@remix-run/serve": "^2.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "drizzle-orm": "^0.28.6",
     "isbot": "^3.6.8",
     "lucide-react": "^0.291.0",
+    "postgres": "^3.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.0.0",
@@ -33,6 +37,7 @@
     "@shrutibalasa/tailwind-grid-auto-fit": "^1.1.0",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "drizzle-kit": "^0.19.13",
     "eslint": "^8.38.0",
     "prettier": "^3.0.3",
     "tailwindcss": "^3.3.3",

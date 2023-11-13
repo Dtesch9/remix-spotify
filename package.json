@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "drizzle-orm": "^0.28.6",
+    "drizzle-valibot": "^0.1.1",
     "isbot": "^3.6.8",
     "lucide-react": "^0.291.0",
     "postgres": "^3.4.3",

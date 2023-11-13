@@ -46,7 +46,7 @@ export default function App() {
         <Links />
       </head>
 
-      <body className="bg-black  text-white min-h-screen">
+      <body className="bg-black text-white min-h-screen">
         <Outlet />
 
         {/* Manages scroll position for client-side transitions */}

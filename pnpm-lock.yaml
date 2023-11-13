@@ -35,6 +35,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.28.6
     version: 0.28.6(postgres@3.4.3)
+  drizzle-valibot:
+    specifier: ^0.1.1
+    version: 0.1.1(drizzle-orm@0.28.6)
   isbot:
     specifier: ^3.6.8
     version: 3.7.0
@@ -3086,6 +3089,14 @@ packages:
         optional: true
     dependencies:
       postgres: 3.4.3
+    dev: false
+
+  /drizzle-valibot@0.1.1(drizzle-orm@0.28.6):
+    resolution: {integrity: sha512-xVEGIbZ+Ti5IkGJP1jaUV8kQ7b5RITaH5XYYPSDVOq0blxI3y65efZ0ZAUKSo6BhZ+VqfZfZn1ouPb3pR1hA6g==}
+    peerDependencies:
+      drizzle-orm: '>=0.23.13'
+    dependencies:
+      drizzle-orm: 0.28.6(postgres@3.4.3)
     dev: false
 
   /duplexify@3.7.1:

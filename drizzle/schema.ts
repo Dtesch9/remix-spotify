@@ -1,1 +1,1 @@
-export { users } from './schemas';
+export * from './schemas';

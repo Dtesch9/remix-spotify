@@ -1,8 +1,8 @@
 import { createCookieSessionStorage, redirect } from '@remix-run/node';
 import invariant from 'tiny-invariant';
 import { safeParse } from 'valibot';
-import type { SpotifyCredentials } from './spotify/auth/spotify.utils';
-import { SpotifyCredentialsSchema } from './spotify/auth/spotify.utils';
+import type { SessionCredentials } from './spotify/auth/spotify.utils';
+import { SessionCredentialsSchema } from './spotify/auth/spotify.utils';
 
 export const USER_SESSION_KEY = 'credentials:meta';
 
@@ -24,11 +24,11 @@ export async function getSession(request: Request) {
   return sessionStorage.getSession(cookie);
 }
 
-export async function getUserCredentials(request: Request): Promise<SpotifyCredentials | null> {
+export async function getUserSessionCredentials(request: Request): Promise<SessionCredentials | null> {
   const session = await getSession(request);
   const credentials = session.get(USER_SESSION_KEY);
 
-  const parsedCredentials = safeParse(SpotifyCredentialsSchema, credentials);
+  const parsedCredentials = safeParse(SessionCredentialsSchema, credentials);
 
   if (!parsedCredentials.success) return null;
 
@@ -38,7 +38,7 @@ export async function getUserCredentials(request: Request): Promise<SpotifyCrede
 
 type CreateSessionArgs = {
   request: Request;
-  credentials: SpotifyCredentials;
+  credentials: SessionCredentials;
   remember: boolean;
   redirectTo: string;
 };

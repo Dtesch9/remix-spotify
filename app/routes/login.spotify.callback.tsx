@@ -1,5 +1,7 @@
+import { saveUserAndCredentials } from '@/models/users/save-user-and-credentials';
 import { createUserSession } from '@/services';
 import { REDIRECT_URI, SpotifyCredentialsSchema } from '@/services/spotify/auth';
+import { getUserByCredentials } from '@/services/spotify/user';
 import type { LoaderFunctionArgs } from '@remix-run/node';
 import invariant from 'tiny-invariant';
 import { parse } from 'valibot';
@@ -31,11 +33,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const res = await fetch(`${SPOTIFY_API_URL}`, AuthOptions);
 
   const credentials = parse(SpotifyCredentialsSchema, await res.json());
+  const user = await getUserByCredentials(credentials);
+
+  const { spotify_id } = await saveUserAndCredentials({ user, credentials });
 
   return createUserSession({
     redirectTo: '/',
     remember: true,
     request,
-    credentials,
+    credentials: { ...credentials, spotify_id },
   });
 };

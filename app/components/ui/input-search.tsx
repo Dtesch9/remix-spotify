@@ -4,6 +4,7 @@ import type { ComponentPropsWithoutRef, FocusEvent, HTMLAttributes } from 'react
 import { createContext, forwardRef, useCallback, useContext, useMemo, useState } from 'react';
 import type { InputProps } from './input';
 import { Input } from './input';
+import { flushSync } from 'react-dom';
 
 type InputGroupContextType = {
   isInputFocused: boolean;
@@ -41,7 +42,7 @@ export const InputGroup = ({ className, ...props }: HTMLAttributes<HTMLInputElem
   const [isInputFocused, setIsInputFocused] = useState(false);
 
   const setFocus = useCallback((isFocused: boolean) => {
-    setIsInputFocused(isFocused);
+    flushSync(() => setIsInputFocused(isFocused));
   }, []);
 
   return (
@@ -59,7 +60,11 @@ export const LeftElement = ({ className, children, ...props }: ComponentPropsWit
 
   return (
     <span
-      className={cn('absolute left-2 text-stone-500 group-hover:text-white', 'data-[focus=true]:text-white', className)}
+      className={cn(
+        'transition-all absolute left-2 text-stone-500 group-hover:text-white',
+        'data-[focus=true]:text-white',
+        className,
+      )}
       {...props}
       data-focus={isInputFocused}
     >

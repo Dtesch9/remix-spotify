@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { NavLink } from '@remix-run/react';
 import type { LucideIcon } from 'lucide-react';
-import { Home, Search } from 'lucide-react';
+import { Home, Search, Users } from 'lucide-react';
 
 type LinkShape = { label: string; to: string; Icon: LucideIcon };
 
@@ -15,6 +15,11 @@ const NavLinks: Array<LinkShape> = [
     label: 'Search',
     to: '/search',
     Icon: Search,
+  },
+  {
+    label: 'Friends',
+    to: '/friends',
+    Icon: Users,
   },
 ];
 

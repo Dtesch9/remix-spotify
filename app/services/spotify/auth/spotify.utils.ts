@@ -1,5 +1,5 @@
 import type { Input } from 'valibot';
-import { number, object, string, literal } from 'valibot';
+import { literal, merge, number, object, string } from 'valibot';
 
 export const SpotifyCredentialsSchema = object({
   access_token: string(),
@@ -9,4 +9,12 @@ export const SpotifyCredentialsSchema = object({
   scope: literal('user-read-email user-read-private'),
 });
 
+export const SessionCredentialsSchema = merge([
+  SpotifyCredentialsSchema,
+  object({
+    spotify_id: string(),
+  }),
+]);
+
 export type SpotifyCredentials = Input<typeof SpotifyCredentialsSchema>;
+export type SessionCredentials = Input<typeof SessionCredentialsSchema>;

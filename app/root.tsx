@@ -3,15 +3,21 @@ import { json } from '@remix-run/node';
 import type { HeadersFunction, LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
-import { getLoggedUser } from './services/spotify/user';
 import tailwindCSS from './globals.css';
+import { getUserBySpotifyId } from './models/users/get-user-by-spotify-id';
+import { getUserSessionCredentials } from './services';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return { 'cache-control': loaderHeaders.get('cache-control') ?? '' };
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const user = await getLoggedUser(request);
+  const credentials = await getUserSessionCredentials(request);
+
+  if (!credentials) return json(null, { status: 200 });
+
+  const user = await getUserBySpotifyId(credentials.spotify_id);
+
   if (user) {
     return json(user, {
       headers: {

@@ -1,21 +1,21 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MaybeUserSchema } from '@/services/spotify/user/';
+import { cn } from '@/lib/utils';
 import { useMatchesData } from '@/utils';
+import { Form, Link, useSubmit } from '@remix-run/react';
 import {
+  DropdownMenu,
+  DropdownMenuArrow,
+  DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenu,
-  DropdownMenuArrow,
   DropdownMenuTrigger,
-  DropdownMenuContent,
 } from '@ui/dropdown-menu';
-import { Form, Link, useSubmit } from '@remix-run/react';
-import type { MouseEvent } from 'react';
-import { parse } from 'valibot';
-import { cn } from '@/lib/utils';
-import { InputSearch, InputGroup, LeftElement } from '@ui/input-search';
+import { InputGroup, InputSearch, LeftElement } from '@ui/input-search';
+import { selectUserSchema } from 'drizzle/schemas';
 import { Search } from 'lucide-react';
+import type { MouseEvent } from 'react';
+import { safeParse } from 'valibot';
 
 export const Header = () => {
   const submit = useSubmit();
@@ -23,13 +23,14 @@ export const Header = () => {
   const sessionData = useMatchesData('root');
   const pathname = useMatchesData('routes/search');
 
-  const user = parse(MaybeUserSchema, sessionData);
-
   function logout(event: MouseEvent<HTMLButtonElement>) {
     submit(event.currentTarget.form, { action: '/logout', method: 'post' });
   }
 
+  const parsedSession = safeParse(selectUserSchema, sessionData);
+
   const needSearchBar = pathname === '/search';
+  const user = parsedSession.success ? parsedSession.output : null;
 
   return (
     <header className="flex justify-between items-center bg-neutral-900 py-4 px-6 rounded-lg min-h-[72px]">
@@ -47,10 +48,10 @@ export const Header = () => {
         <DropdownMenu>
           <DropdownMenuTrigger className="rounded-full">
             <Avatar className="select-none">
-              <AvatarImage src={user.images[0].url} alt={user.display_name} />
+              <AvatarImage src={user.avatar_url} alt={user.display_name} />
 
               <AvatarFallback asChild>
-                <img src={user.images[0].url} alt={user.display_name} />
+                <img src={user.avatar_url} alt={user.display_name} />
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>

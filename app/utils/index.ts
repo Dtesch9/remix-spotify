@@ -1,2 +1,2 @@
-export * from './useMatchesData';
-export * from './userCache';
+export * from './use-matches-data';
+export * from './user-cache';

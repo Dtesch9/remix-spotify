@@ -1,3 +1,4 @@
+import { gridAutoFill } from 'tailwind.plugins';
 import type { Config } from 'tailwindcss';
 
 export default {
@@ -31,5 +32,5 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('@shrutibalasa/tailwind-grid-auto-fit')],
+  plugins: [require('tailwindcss-animate'), require('@shrutibalasa/tailwind-grid-auto-fit'), gridAutoFill],
 } satisfies Config;

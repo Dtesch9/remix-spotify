@@ -42,4 +42,4 @@ export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
 
 export type UserInput = Input<typeof insertUserSchema>;
-export type UserOutput = Output<typeof selectUserSchema>;
+export type User = Output<typeof selectUserSchema>;

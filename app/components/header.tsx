@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
+import type { SearchPageLoaderData } from '@/routes/search';
 import { useMatchesData } from '@/utils';
 import { Form, Link, useSubmit } from '@remix-run/react';
 import {
@@ -21,7 +22,7 @@ export const Header = () => {
   const submit = useSubmit();
 
   const sessionData = useMatchesData('root');
-  const pathname = useMatchesData('routes/search');
+  const searchPageData = useMatchesData('routes/search') as SearchPageLoaderData | undefined;
 
   function logout(event: MouseEvent<HTMLButtonElement>) {
     submit(event.currentTarget.form, { action: '/logout', method: 'post' });
@@ -29,7 +30,7 @@ export const Header = () => {
 
   const parsedSession = safeParse(selectUserSchema, sessionData);
 
-  const needSearchBar = pathname === '/search';
+  const needSearchBar = searchPageData?.pathname === '/search';
   const user = parsedSession.success ? parsedSession.output : null;
 
   return (
@@ -40,7 +41,12 @@ export const Header = () => {
             <Search />
           </LeftElement>
 
-          <InputSearch className={cn('max-w-xs rounded-full')} placeholder="Search" name="q" />
+          <InputSearch
+            className={cn('max-w-xs rounded-full')}
+            placeholder="Search"
+            name="q"
+            defaultValue={searchPageData?.query ?? void 0}
+          />
         </InputGroup>
       </Form>
 

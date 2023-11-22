@@ -1,7 +1,7 @@
-import type { MaybeUser } from '@/services/spotify/user';
+import type { MaybeSpotifyUser } from '@/services/spotify/user';
 
 type CacheMeta = {
-  user: MaybeUser;
+  user: MaybeSpotifyUser;
   hitAt: number;
   /** `In minutes` */
   revalidateTime: number;

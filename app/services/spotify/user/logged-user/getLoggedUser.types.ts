@@ -26,5 +26,5 @@ export const UserSchema = object({
 
 export const MaybeUserSchema = nullable(UserSchema);
 
-export type MaybeUser = Output<typeof MaybeUserSchema>;
-export type UserShape = Output<typeof UserSchema>;
+export type MaybeSpotifyUser = Output<typeof MaybeUserSchema>;
+export type SpotifyUserShape = Output<typeof UserSchema>;

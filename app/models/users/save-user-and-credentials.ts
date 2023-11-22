@@ -1,11 +1,11 @@
 import type { SpotifyCredentials } from '@/services/spotify/auth';
-import type { UserShape } from '@/services/spotify/user';
+import type { SpotifyUserShape } from '@/services/spotify/user';
 import { spotifyUserToSchema } from '@/utils/spotify-user-to-schema';
 import { db } from 'drizzle';
 import { users, usersCredentials } from 'drizzle/schemas';
 
 type SaveUserAndCredentialsArgs = {
-  user: UserShape;
+  user: SpotifyUserShape;
   credentials: SpotifyCredentials;
 };
 

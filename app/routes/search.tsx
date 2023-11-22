@@ -1,8 +1,8 @@
-import { MainLayout } from '@/components/layouts/main-layout';
 import { UsersList } from '@/components/users-list';
 import { searchUsersByName } from '@/models/users/search-users-by-name';
-import type { LoaderFunctionArgs, MetaFunction, SerializeFrom } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { requiredUserSession } from '@/services';
+import { json, type LoaderFunctionArgs, type MetaFunction, type SerializeFrom } from '@remix-run/node';
+import { isRouteErrorResponse, useLoaderData, useRouteError } from '@remix-run/react';
 
 export const meta: MetaFunction = () => {
   return [
@@ -19,18 +19,18 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
+  await requiredUserSession(request);
+
   const url = new URL(request.url);
 
-  // @todo: Here we are going to look at our backend to see if any query match
-  // if it does, we are going to use the match user's id to search on our backend
-  // and verify if this user is already connected
   const query = url.searchParams.get('q');
-
   const users = await searchUsersByName(query ?? '');
 
-  // If not, we are going to show a message, and a button to invite user
+  if (query && users.length === 0) {
+    throw json({ query }, { status: 404 });
+  }
 
-  return { pathname: url.pathname, query, users };
+  return json({ users });
 }
 
 export type SearchPageLoaderData = SerializeFrom<typeof loader>;
@@ -40,12 +40,43 @@ export default function Search() {
   const { users } = useLoaderData<typeof loader>();
 
   return (
-    <MainLayout>
-      <section className="flex-col gap-4 mt-4 mx-6">
-        <h2 className="text-white text-xl font-bold">Search</h2>
+    <section className="flex-col gap-4 mt-4 mx-6">
+      <h2 className="text-white text-xl font-bold">Search</h2>
 
-        <UsersList users={users} />
-      </section>
-    </MainLayout>
+      <UsersList users={users} />
+    </section>
   );
+}
+/******************************************************************************/
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  // @todo: If not, we are going to show a message, and a button to invite user
+
+  if (isRouteErrorResponse(error)) {
+    switch (error.status) {
+      case 404:
+        return <div>User {error.data.query} not found!</div>;
+    }
+
+    return (
+      <div>
+        Something went wrong: {error.status} {error.statusText}
+      </div>
+    );
+  }
+
+  if (error instanceof Error) {
+    return (
+      <div>
+        <h1>Error</h1>
+        <p>{error.message}</p>
+        <p>The stack trace is:</p>
+        <pre>{error.stack}</pre>
+      </div>
+    );
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
 }

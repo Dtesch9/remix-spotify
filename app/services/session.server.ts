@@ -34,6 +34,16 @@ export async function getUserSessionCredentials(request: Request): Promise<Sessi
 
   return parsedCredentials.output;
 }
+
+export async function requiredUserSession(request: Request) {
+  const session = await getSession(request);
+  const credentials = session.get(USER_SESSION_KEY);
+
+  if (!credentials) {
+    // if there is no user session, redirect to login
+    throw redirect('/login');
+  }
+}
 /******************************************************************************/
 
 type CreateSessionArgs = {

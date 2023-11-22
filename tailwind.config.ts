@@ -1,4 +1,4 @@
-import { gridAutoFill } from 'tailwind.plugins';
+import { gridAutoFill } from './tailwind.plugins';
 import type { Config } from 'tailwindcss';
 
 export default {

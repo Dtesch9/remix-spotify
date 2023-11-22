@@ -1,17 +1,19 @@
 import { cssBundleHref } from '@remix-run/css-bundle';
 import { json } from '@remix-run/node';
-import type { HeadersFunction, LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
+import type { HeadersFunction, LinksFunction, LoaderFunctionArgs, SerializeFrom } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
 import tailwindCSS from './globals.css';
 import { getUserBySpotifyId } from './models/users/get-user-by-spotify-id';
 import { getUserSessionCredentials } from './services';
+import { MainLayout } from './components/layouts/main-layout';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return { 'cache-control': loaderHeaders.get('cache-control') ?? '' };
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const url = new URL(request.url);
   const credentials = await getUserSessionCredentials(request);
 
   if (!credentials) return json(null, { status: 200 });
@@ -19,15 +21,20 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await getUserBySpotifyId(credentials.spotify_id);
 
   if (user) {
-    return json(user, {
-      headers: {
-        'Cache-Control': 'private, max-age=60, s-maxage=60',
+    return json(
+      { user, pathname: url.pathname, query: url.searchParams.get('q') },
+      {
+        headers: {
+          'Cache-Control': 'private, max-age=60, s-maxage=60',
+        },
       },
-    });
+    );
   }
 
   return json(null, { status: 200 });
 };
+
+export type RootLoaderData = SerializeFrom<typeof loader>;
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref
@@ -53,7 +60,9 @@ export default function App() {
       </head>
 
       <body className="bg-black text-white min-h-screen">
-        <Outlet />
+        <MainLayout>
+          <Outlet />
+        </MainLayout>
 
         {/* Manages scroll position for client-side transitions */}
         {/* If you use a nonce-based content security policy for scripts, you must provide the `nonce` prop. Otherwise, omit the nonce prop as shown here. */}

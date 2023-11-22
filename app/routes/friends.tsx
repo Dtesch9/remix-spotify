@@ -1,4 +1,3 @@
-import { MainLayout } from '@/components/layouts/main-layout';
 import { UsersList } from '@/components/users-list';
 import type { MetaFunction } from '@remix-run/node';
 
@@ -18,12 +17,10 @@ export const meta: MetaFunction = () => {
 
 export default function Home() {
   return (
-    <MainLayout>
-      <section className="flex-col gap-4 mt-4 mx-6">
-        <h2 className="text-white text-xl font-bold">Friends</h2>
+    <section className="flex-col gap-4 mt-4 mx-6">
+      <h2 className="text-white text-xl font-bold">Friends</h2>
 
-        <UsersList users={[]} />
-      </section>
-    </MainLayout>
+      <UsersList users={[]} />
+    </section>
   );
 }

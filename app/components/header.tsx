@@ -1,8 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import type { SearchPageLoaderData } from '@/routes/search';
-import { useMatchesData } from '@/utils';
-import { Form, Link, useSubmit } from '@remix-run/react';
+import type { RootLoaderData } from '@/root';
+import { Form, Link, useLocation, useRouteLoaderData, useSubmit } from '@remix-run/react';
 import {
   DropdownMenu,
   DropdownMenuArrow,
@@ -21,32 +20,36 @@ import { safeParse } from 'valibot';
 export const Header = () => {
   const submit = useSubmit();
 
-  const sessionData = useMatchesData('root');
-  const searchPageData = useMatchesData('routes/search') as SearchPageLoaderData | undefined;
+  const { pathname } = useLocation();
+  const rootData = useRouteLoaderData<RootLoaderData>('root');
 
   function logout(event: MouseEvent<HTMLButtonElement>) {
     submit(event.currentTarget.form, { action: '/logout', method: 'post' });
   }
 
-  const parsedSession = safeParse(selectUserSchema, sessionData);
+  const parsedSession = safeParse(selectUserSchema, rootData?.user);
 
-  const needSearchBar = searchPageData?.pathname === '/search';
+  const needSearchBar = pathname === '/search';
   const user = parsedSession.success ? parsedSession.output : null;
 
   return (
     <header className="flex justify-between items-center bg-neutral-900 py-4 px-6 rounded-lg min-h-[72px]">
-      <Form>
+      <Form action="/search">
         <InputGroup className={cn(needSearchBar ? 'visible' : 'invisible select-none')}>
-          <LeftElement>
-            <Search />
-          </LeftElement>
+          {needSearchBar && (
+            <>
+              <LeftElement>
+                <Search />
+              </LeftElement>
 
-          <InputSearch
-            className={cn('max-w-xs rounded-full')}
-            placeholder="Search"
-            name="q"
-            defaultValue={searchPageData?.query ?? void 0}
-          />
+              <InputSearch
+                className={cn('max-w-xs rounded-full')}
+                placeholder="Search"
+                name="q"
+                defaultValue={rootData?.query ?? void 0}
+              />
+            </>
+          )}
         </InputGroup>
       </Form>
 

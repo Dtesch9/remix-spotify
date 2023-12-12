@@ -24,8 +24,6 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     return new Response('Internal server error', { status: 500, statusText: 'Internal server Error' });
   }
 
-  console.log(freshCredentials.access_token, freshCredentials.refresh_token);
-
   const playerState = await getPlayerState(freshCredentials.access_token);
 
   if (playerState.status !== 200 && playerState.ok) {

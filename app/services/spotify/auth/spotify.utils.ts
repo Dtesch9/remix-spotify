@@ -1,12 +1,20 @@
 import type { Input } from 'valibot';
-import { literal, merge, number, object, string } from 'valibot';
+import { literal, merge, number, object, optional, string } from 'valibot';
 
 export const SpotifyCredentialsSchema = object({
   access_token: string(),
   token_type: literal('Bearer'),
   expires_in: number(),
   refresh_token: string(),
-  scope: literal('user-read-email user-read-private'),
+  scope: string(),
+});
+
+export const SpotifyCredentialsRefreshSchema = object({
+  access_token: string(),
+  token_type: literal('Bearer'),
+  expires_in: number(),
+  refresh_token: optional(string()),
+  scope: string(),
 });
 
 export const SessionCredentialsSchema = merge([

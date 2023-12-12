@@ -4,7 +4,7 @@ import type { HeadersFunction, LinksFunction, LoaderFunctionArgs, SerializeFrom 
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 
 import tailwindCSS from './globals.css';
-import { getUserBySpotifyId } from './models/users/get-user-by-spotify-id';
+import { getUserBySpotifyId } from './models/users/get-user-by-spotify-id.server';
 import { getUserSessionCredentials } from './services';
 import { MainLayout } from './components/layouts/main-layout';
 

@@ -1,8 +1,8 @@
-import { saveUserAndCredentials } from '@/models/users/save-user-and-credentials';
+import { saveUserAndCredentials } from '@/models/users/save-user-and-credentials.server';
 import { createUserSession } from '@/services';
 import { REDIRECT_URI, SpotifyCredentialsSchema } from '@/services/spotify/auth';
 import { getUserByCredentials } from '@/services/spotify/user';
-import type { LoaderFunctionArgs } from '@remix-run/node';
+import { redirect, type LoaderFunctionArgs } from '@remix-run/node';
 import invariant from 'tiny-invariant';
 import { parse } from 'valibot';
 
@@ -37,9 +37,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const { spotify_id } = await saveUserAndCredentials({ user, credentials });
 
+  // @todo: Create smart error page
+  if (!spotify_id) return redirect('/error');
+
   return createUserSession({
     redirectTo: '/',
-    remember: true,
+    remember: false,
     request,
     credentials: { ...credentials, spotify_id },
   });

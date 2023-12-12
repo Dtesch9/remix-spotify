@@ -1,7 +1,8 @@
-import { safeParse } from 'valibot';
 import { getUserSessionCredentials, logout } from '@/services';
-import { UserSchema } from './getLoggedUser.types';
+import { throwTranslatedIssues } from '@/utils/validation/throw-translated-issues';
+import { safeParse } from 'valibot';
 import type { SpotifyCredentials } from '../../auth';
+import { UserSchema } from './getLoggedUser.types';
 
 const SPOTIFY_API = 'https://api.spotify.com/v1/me';
 
@@ -34,7 +35,7 @@ export async function getUserByCredentials(credentials: SpotifyCredentials) {
 
   const user = safeParse(UserSchema, await res.json());
 
-  if (!user.success) throw user.issues;
+  if (!user.success) throwTranslatedIssues('UserSchema', user.issues);
 
   return user.output;
 }

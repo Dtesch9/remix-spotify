@@ -1,5 +1,5 @@
 import { UsersList } from '@/components/users-list';
-import { searchUsersByName } from '@/models/users/search-users-by-name';
+import { searchUsersByName } from '@/models/users/search-users-by-name.server';
 import { requiredUserSession } from '@/services';
 import { json, type LoaderFunctionArgs, type MetaFunction, type SerializeFrom } from '@remix-run/node';
 import { isRouteErrorResponse, useLoaderData, useRouteError } from '@remix-run/react';
@@ -24,7 +24,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
 
   const query = url.searchParams.get('q');
-  const users = await searchUsersByName(query ?? '');
+  const usersAndCredentials = await searchUsersByName(query ?? '');
+  const users = usersAndCredentials.map(({ users }) => users);
 
   if (query && users.length === 0) {
     throw json({ query }, { status: 404 });
@@ -57,7 +58,11 @@ export function ErrorBoundary() {
   if (isRouteErrorResponse(error)) {
     switch (error.status) {
       case 404:
-        return <div>User {error.data.query} not found!</div>;
+        return (
+          <div>
+            User <strong>{error.data.query}</strong> not found!
+          </div>
+        );
     }
 
     return (

@@ -14,7 +14,7 @@ export async function redirectToSpotifyAuthentication() {
     `${SPOTIFY_API_URL}?${new URLSearchParams({
       response_type: 'code',
       client_id: CLIENT_ID,
-      scope: 'user-read-private user-read-email',
+      scope: 'user-read-private user-read-email user-read-playback-state',
       redirect_uri: REDIRECT_URI,
       state: crypto.randomUUID(),
     })}`,

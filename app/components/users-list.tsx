@@ -14,7 +14,7 @@ export const UsersList = ({ users, className, ...props }: UsersListProps) => {
       className={cn(
         'grid',
         'data-[list-big=true]:grid-auto-fit-[theme(spacing.48)]',
-        'data-[list-big=false]:grid-auto-fill-[theme(spacing.48)]',
+        'data-[list-big=false]:grid-auto-fill-[12.6rem]',
         'mt-[inherit]',
         'gap-[inherit]',
         className,

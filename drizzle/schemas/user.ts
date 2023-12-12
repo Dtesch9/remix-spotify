@@ -28,7 +28,7 @@ export const usersCredentials = pgTable('users_credentials', {
   refresh_token: text('refresh_token').notNull(),
   token_type: varchar('token_type', { length: 20 }).notNull(),
   expires_in: bigint('expires_in', { mode: 'number' }).notNull(),
-  scope: text('scope', { enum: ['user-read-email user-read-private'] }).notNull(),
+  scope: text('scope').notNull(),
   user_id: varchar('user_id', { length: 255 })
     .references(() => users.id)
     .notNull()

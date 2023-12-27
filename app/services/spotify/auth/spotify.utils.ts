@@ -21,6 +21,7 @@ export const SessionCredentialsSchema = merge([
   SpotifyCredentialsSchema,
   object({
     spotify_id: string(),
+    user_id: string(),
   }),
 ]);
 

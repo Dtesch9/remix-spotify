@@ -31,12 +31,12 @@ export async function saveUserAndCredentials({ user, credentials }: SaveUserAndC
           set: credentials,
         });
 
-      return { spotify_id };
+      return { spotify_id, user_id };
     } catch (error) {
       console.error(error);
       tx.rollback();
     }
   });
 
-  return { spotify_id: maybeResponse?.spotify_id };
+  return { user_id: maybeResponse?.user_id, spotify_id: maybeResponse?.spotify_id };
 }

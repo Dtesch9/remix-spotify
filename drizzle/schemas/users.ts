@@ -1,5 +1,5 @@
 import { createId } from '@paralleldrive/cuid2';
-import { bigint, integer, pgTable, text, varchar } from 'drizzle-orm/pg-core';
+import { integer, pgTable, text, varchar } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
 import type { Input, Output } from 'valibot';
 
@@ -18,21 +18,6 @@ export const users = pgTable('users', {
   email: text('email').notNull(),
   avatar_url: text('avatar_url').notNull(),
   external_url: text('external_url').notNull(),
-});
-
-export const usersCredentials = pgTable('users_credentials', {
-  id: varchar('id', { length: 255 })
-    .primaryKey()
-    .$defaultFn(() => createId()),
-  access_token: text('access_token').notNull(),
-  refresh_token: text('refresh_token').notNull(),
-  token_type: varchar('token_type', { length: 20 }).notNull(),
-  expires_in: bigint('expires_in', { mode: 'number' }).notNull(),
-  scope: text('scope').notNull(),
-  user_id: varchar('user_id', { length: 255 })
-    .references(() => users.id)
-    .notNull()
-    .unique(),
 });
 
 // Schema for inserting a user - can be used to validate API requests

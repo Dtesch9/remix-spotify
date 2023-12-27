@@ -15,8 +15,8 @@ export const UserCardPlayer = ({ userId }: UserCardPlayerProps) => {
       <ClientOnly fallback={<PlayerFallback />} keepFallback={status === 'fetching'}>
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger className="w-full flex-1 flex gap-[inherit] justify-between">
-              <p className="text-neutral-300 text-sm font-semibold">
+            <TooltipTrigger className="w-full flex-1 flex gap-[inherit] justify-between cursor-default">
+              <p className="text-left text-neutral-300 text-sm font-semibold">
                 <span className="text-neutral-400 font-normal line-clamp-1">
                   {data?.playerState ? data?.playerState?.item?.name : 'Not active'}
                 </span>
@@ -29,7 +29,7 @@ export const UserCardPlayer = ({ userId }: UserCardPlayerProps) => {
               />
             </TooltipTrigger>
 
-            <TooltipContent side="bottom">
+            <TooltipContent side="bottom" className="[&>span:first-of-type]:top-[1px!important]">
               <TooltipArrow />
 
               <p>{data?.playerState ? `Listening to: ${data?.playerState?.item?.name}` : 'Not active'}</p>
@@ -40,7 +40,7 @@ export const UserCardPlayer = ({ userId }: UserCardPlayerProps) => {
     </div>
   );
 };
-UserCardPlayer.displayName = 'UserCard';
+UserCardPlayer.displayName = 'UserCardPlayer';
 /******************************************************************************/
 
 const PlayerFallback = () => {

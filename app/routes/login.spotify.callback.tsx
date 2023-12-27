@@ -35,15 +35,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const credentials = parse(SpotifyCredentialsSchema, await res.json());
   const user = await getUserByCredentials(credentials);
 
-  const { spotify_id } = await saveUserAndCredentials({ user, credentials });
+  const { spotify_id, user_id } = await saveUserAndCredentials({ user, credentials });
 
   // @todo: Create smart error page
-  if (!spotify_id) return redirect('/error');
+  if (!spotify_id || !user_id) return redirect('/error');
 
   return createUserSession({
     redirectTo: '/',
     remember: false,
     request,
-    credentials: { ...credentials, spotify_id },
+    credentials: { ...credentials, spotify_id, user_id },
   });
 };

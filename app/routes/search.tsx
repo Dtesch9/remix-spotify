@@ -1,11 +1,10 @@
 import { UsersList } from '@/components/users-list';
 import { searchUsersByName } from '@/models/users/search-users-by-name.server';
 import { getUserSessionCredentials, requiredUserSession } from '@/services';
-import { json, redirect } from '@remix-run/node';
-import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, SerializeFrom } from '@remix-run/node';
-import { isRouteErrorResponse, useActionData, useLoaderData, useRouteError } from '@remix-run/react';
-import { db } from 'drizzle';
-import { usersToFriends } from 'drizzle/schemas';
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from 'react-router';
+import { data, isRouteErrorResponse, redirect, useActionData, useLoaderData, useRouteError } from 'react-router';
+import { db } from '@drizzle';
+import { usersToFriends } from '@drizzle/schemas';
 import { useEffect } from 'react';
 
 export const meta: MetaFunction = () => {
@@ -32,10 +31,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const users = usersAndCredentials.map(({ users }) => users);
 
   if (query && users.length === 0) {
-    throw json({ query }, { status: 404 });
+    throw data({ query }, { status: 404 });
   }
 
-  return json({ users });
+  return { users };
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -50,10 +49,10 @@ export async function action({ request }: ActionFunctionArgs) {
 
   await db.insert(usersToFriends).values({ user_id: loggedUser.user_id, friend_id: friendId }).onConflictDoNothing();
 
-  return json({ ok: true });
+  return { ok: true };
 }
 
-export type SearchPageLoaderData = SerializeFrom<typeof loader>;
+export type SearchPageLoaderData = typeof loader;
 
 export default function Search() {
   // @todo: Display recent connected users

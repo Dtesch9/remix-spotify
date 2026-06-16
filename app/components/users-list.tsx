@@ -1,4 +1,4 @@
-import type { User } from 'drizzle/schemas';
+import type { User } from '@drizzle/schemas';
 import { UserCard } from './user-card';
 import type { ComponentPropsWithoutRef } from 'react';
 import { cn } from '@/lib/utils';

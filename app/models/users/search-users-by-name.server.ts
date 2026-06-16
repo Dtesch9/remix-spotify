@@ -1,6 +1,6 @@
-import { db } from 'drizzle';
+import { db } from '@drizzle';
 import { eq, ilike } from 'drizzle-orm';
-import { users, usersCredentials } from 'drizzle/schemas';
+import { users, usersCredentials } from '@drizzle/schemas';
 
 export async function searchUsersByName(query: string) {
   return db

@@ -1,6 +1,6 @@
 import type { SpotifyCredentials } from '@/services/spotify/auth';
-import { db } from 'drizzle';
-import { usersCredentials } from 'drizzle/schemas';
+import { db } from '@drizzle';
+import { usersCredentials } from '@drizzle/schemas';
 
 type SaveCredentialsArgs = {
   userId: string;

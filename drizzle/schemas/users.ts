@@ -1,7 +1,7 @@
 import { createId } from '@paralleldrive/cuid2';
 import { integer, pgTable, text, varchar } from 'drizzle-orm/pg-core';
-import { createInsertSchema, createSelectSchema } from 'drizzle-valibot';
-import type { Input, Output } from 'valibot';
+import { createInsertSchema, createSelectSchema } from 'drizzle-orm/valibot';
+import type { InferInput, InferOutput } from 'valibot';
 
 export const users = pgTable('users', {
   id: varchar('id', { length: 255 })
@@ -26,5 +26,5 @@ export const insertUserSchema = createInsertSchema(users);
 // Schema for selecting a user - can be used to validate API responses
 export const selectUserSchema = createSelectSchema(users);
 
-export type UserInput = Input<typeof insertUserSchema>;
-export type User = Output<typeof selectUserSchema>;
+export type UserInput = InferInput<typeof insertUserSchema>;
+export type User = InferOutput<typeof selectUserSchema>;

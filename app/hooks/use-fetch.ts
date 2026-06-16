@@ -69,7 +69,7 @@ export function useFetch<T = unknown>(endpoint: string) {
 const cache = new Map<string, unknown>();
 
 /** Get's a partial url and resolve to absolute url
- *  `'/user'` -> 'http://localhost:3000/user/
+ *  `'/user'` -> 'http://127.0.0.1:3000/user/
  */
 function resolveUrl(endpoint: string) {
   if (typeof window === 'undefined') return '';

@@ -1,35 +1,26 @@
 {
-  "include": [
-    "remix.env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": [".react-router/types/**/*", "app/**/*", "app/**/.server/**/*", "app/**/.client/**/*", "server/**/*"],
   "compilerOptions": {
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["@react-router/node", "node", "vite/client"],
+    "rootDirs": [".", "./.react-router/types"],
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
-    "module": "ES2022",
     "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./app/*"
-      ],
-      "@ui/*": [
-        "./app/components/ui/*"
-      ]
+      "@/*": ["./app/*"],
+      "@ui/*": ["./app/components/ui/*"],
+      "@drizzle": ["./drizzle/index.ts"],
+      "@drizzle/*": ["./drizzle/*"]
     },
-    // Remix takes care of building everything in `remix build`.
     "noEmit": true
   }
 }

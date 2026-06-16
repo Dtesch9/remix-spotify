@@ -1,5 +1,5 @@
 import type { SpotifyUserShape } from '@/services/spotify/user';
-import type { UserInput } from 'drizzle/schemas';
+import type { UserInput } from '@drizzle/schemas';
 
 export function spotifyUserToSchema(user: SpotifyUserShape): UserInput {
   const { id, images, followers, external_urls, ...dataThatMatchSchema } = user;

@@ -1,27 +1,40 @@
-import { cssBundleHref } from '@remix-run/css-bundle';
-import { json } from '@remix-run/node';
-import type { HeadersFunction, LinksFunction, LoaderFunctionArgs, SerializeFrom } from '@remix-run/node';
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import type { HeadersFunction, LoaderFunctionArgs } from 'react-router';
+import { Links, data, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
-import tailwindCSS from './globals.css';
 import { getUserBySpotifyId } from './models/users/get-user-by-spotify-id.server';
 import { getUserSessionCredentials } from './services';
 import { MainLayout } from './components/layouts/main-layout';
+import type { Route } from './+types/root';
+
+import './globals.css';
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
   return { 'cache-control': loaderHeaders.get('cache-control') ?? '' };
 };
 
+export const links: Route.LinksFunction = () => [
+  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+  {
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
+  },
+];
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const credentials = await getUserSessionCredentials(request);
 
-  if (!credentials) return json(null, { status: 200 });
+  if (!credentials) return data(null, { status: 200 });
 
   const user = await getUserBySpotifyId(credentials.spotify_id);
 
   if (user) {
-    return json(
+    return data(
       { user, pathname: url.pathname, query: url.searchParams.get('q') },
       {
         headers: {
@@ -31,19 +44,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     );
   }
 
-  return json(null, { status: 200 });
+  return data(null, { status: 200 });
 };
 
-export type RootLoaderData = SerializeFrom<typeof loader>;
-
-export const links: LinksFunction = () => [
-  ...(cssBundleHref
-    ? [
-        { rel: 'stylesheet', href: cssBundleHref },
-        { rel: 'stylesheet', href: tailwindCSS },
-      ]
-    : [{ rel: 'stylesheet', href: tailwindCSS }]),
-];
+export type RootLoaderData = typeof loader;
 
 export default function App() {
   return (
@@ -71,11 +75,6 @@ export default function App() {
         {/* Script tags go here */}
         {/* If you use a nonce-based content security policy for scripts, you must provide the `nonce` prop. Otherwise, omit the nonce prop as shown here. */}
         <Scripts />
-
-        {/* Sets up automatic reload when you change code */}
-        {/* and only does anything during development */}
-        {/* If you use a nonce-based content security policy for scripts, you must provide the `nonce` prop. Otherwise, omit the nonce prop as shown here. */}
-        <LiveReload />
       </body>
     </html>
   );

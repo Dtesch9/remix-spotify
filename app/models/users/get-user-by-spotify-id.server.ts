@@ -1,9 +1,7 @@
-import { db } from 'drizzle';
-import { eq } from 'drizzle-orm';
-import { users } from 'drizzle/schemas';
+import { db } from '@drizzle';
 
 export async function getUserBySpotifyId(spotify_id: string) {
-  const user = await db.query.users.findFirst({ where: eq(users.spotify_id, spotify_id) });
+  const user = await db.query.users.findFirst({ where: { spotify_id } });
 
   return user;
 }

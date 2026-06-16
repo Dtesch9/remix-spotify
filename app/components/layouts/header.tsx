@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import type { RootLoaderData } from '@/root';
-import { Form, Link, useLocation, useRouteLoaderData, useSubmit } from '@remix-run/react';
+import { Form, Link, useLocation, useRouteLoaderData, useSubmit } from 'react-router';
 import {
   DropdownMenu,
   DropdownMenuArrow,
@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@ui/dropdown-menu';
 import { InputGroup, InputSearch, LeftElement } from '@ui/input-search';
-import { selectUserSchema } from 'drizzle/schemas';
+import { selectUserSchema } from '@drizzle/schemas';
 import { Search } from 'lucide-react';
 import type { MouseEvent } from 'react';
 import { safeParse } from 'valibot';

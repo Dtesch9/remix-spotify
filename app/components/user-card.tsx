@@ -1,5 +1,5 @@
-import { useSubmit } from '@remix-run/react';
-import type { User } from 'drizzle/schemas';
+import { useSubmit } from 'react-router';
+import type { User } from '@drizzle/schemas';
 import { PlusCircleIcon } from 'lucide-react';
 import { UserCardPlayer } from './user-card-player';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@ui/tooltip';
@@ -28,8 +28,9 @@ export const UserCard = ({ user }: UserCardProps) => {
 
         <button
           type="submit"
+          aria-label={`Add ${user.display_name} as friend`}
           onClick={() => submit({ userId: user.id }, { method: 'post' })}
-          className="absolute inset-x-0 top-3 bottom-20 grid place-items-center invisible group-hover:visible"
+          className="absolute inset-x-0 top-3 bottom-20 grid place-items-center invisible cursor-pointer group-hover:visible"
         >
           <TooltipProvider>
             <Tooltip>

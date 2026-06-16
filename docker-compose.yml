@@ -1,13 +1,11 @@
-version: '3.8'
-
 services:
   postgres:
-    image: postgres:16
+    image: postgres:18
     # volumes:
     #   - ./drizzle/migrations:/docker-entrypoint-initdb.d
     environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: "remix-spotify"
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: 'remix-spotify'
     ports:
-      - "5432:5432"
+      - '5432:5432'

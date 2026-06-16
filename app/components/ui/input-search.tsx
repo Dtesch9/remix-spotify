@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils';
-import type { LucideProps } from 'lucide-react';
 import type { ComponentPropsWithoutRef, FocusEvent, HTMLAttributes } from 'react';
 import { createContext, forwardRef, useCallback, useContext, useMemo, useState } from 'react';
 import type { InputProps } from './input';
@@ -73,12 +72,10 @@ export const LeftElement = ({ className, children, ...props }: ComponentPropsWit
   );
 };
 
-type InputSearchProps = {
-  InputLeftElement?: (props: LucideProps) => JSX.Element;
-} & InputProps;
+type InputSearchProps = InputProps;
 
 export const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>((props, ref) => {
-  const { className, type, onFocus, onBlur, InputLeftElement, ...inputFocus } = props;
+  const { className, type, onFocus, onBlur, ...inputFocus } = props;
 
   const { setIsInputFocused } = useInputGroup();
 

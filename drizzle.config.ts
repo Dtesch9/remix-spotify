@@ -1,10 +1,10 @@
-import type { Config } from 'drizzle-kit';
+import { defineConfig } from 'drizzle-kit';
 
-export default {
+export default defineConfig({
   schema: './drizzle/schema.ts',
   out: './drizzle/migrations',
-  driver: 'pg',
+  dialect: 'postgresql',
   dbCredentials: {
-    connectionString: process.env.DB_URL ?? 'postgresql://postgres:postgres@localhost:5432/remix-spotify',
+    url: process.env.DB_URL ?? 'postgresql://postgres:postgres@127.0.0.1:5432/remix-spotify',
   },
-} satisfies Config;
+});

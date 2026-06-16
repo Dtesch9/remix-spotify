@@ -1,11 +1,11 @@
-import { redirect } from '@remix-run/node';
+import { redirect } from 'react-router';
 import crypto from 'crypto';
 import invariant from 'tiny-invariant';
 
 invariant(process.env.SPOTIFY_CLIENT_ID, 'SPOTIFY_CLIENT_ID must be set');
 invariant(process.env.SPOTIFY_SECRET, 'SPOTIFY_SECRET be set');
 
-export const REDIRECT_URI = 'http://localhost:3000/login/spotify/callback';
+export const REDIRECT_URI = 'http://127.0.0.1:3000/login/spotify/callback';
 const SPOTIFY_API_URL = 'https://accounts.spotify.com/authorize';
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID; // Your client id
 

@@ -1,4 +1,4 @@
-import type { Output } from 'valibot';
+import type { InferOutput } from 'valibot';
 import { array, boolean, nullable, number, object, string } from 'valibot';
 
 export const UserSchema = object({
@@ -26,5 +26,5 @@ export const UserSchema = object({
 
 export const MaybeUserSchema = nullable(UserSchema);
 
-export type MaybeSpotifyUser = Output<typeof MaybeUserSchema>;
-export type SpotifyUserShape = Output<typeof UserSchema>;
+export type MaybeSpotifyUser = InferOutput<typeof MaybeUserSchema>;
+export type SpotifyUserShape = InferOutput<typeof UserSchema>;

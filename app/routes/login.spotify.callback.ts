@@ -2,7 +2,7 @@ import { saveUserAndCredentials } from '@/models/users/save-user-and-credentials
 import { createUserSession } from '@/services';
 import { REDIRECT_URI, SpotifyCredentialsSchema } from '@/services/spotify/auth';
 import { getUserByCredentials } from '@/services/spotify/user';
-import { redirect, type LoaderFunctionArgs } from '@remix-run/node';
+import { redirect, type LoaderFunctionArgs } from 'react-router';
 import invariant from 'tiny-invariant';
 import { parse } from 'valibot';
 

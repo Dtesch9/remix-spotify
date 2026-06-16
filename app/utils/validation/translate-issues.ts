@@ -1,7 +1,7 @@
-import type { Issues } from 'valibot';
+import type { GenericIssue } from 'valibot';
 
-export function translateIssues(issues: Issues) {
-  return issues.flatMap(
-    ({ path, validation }) => path?.map((item) => ({ key: item.key, received: item.value, expect: validation })),
+export function translateIssues(issues: GenericIssue[]) {
+  return issues.flatMap(({ path, type }) =>
+    path?.map((item) => ({ key: item.key, received: item.value, expect: type })),
   );
 }

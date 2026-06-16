@@ -1,5 +1,5 @@
-import type { Input } from 'valibot';
-import { literal, merge, number, object, optional, string } from 'valibot';
+import type { InferInput } from 'valibot';
+import { intersect, literal, number, object, optional, string } from 'valibot';
 
 export const SpotifyCredentialsSchema = object({
   access_token: string(),
@@ -17,7 +17,7 @@ export const SpotifyCredentialsRefreshSchema = object({
   scope: string(),
 });
 
-export const SessionCredentialsSchema = merge([
+export const SessionCredentialsSchema = intersect([
   SpotifyCredentialsSchema,
   object({
     spotify_id: string(),
@@ -25,5 +25,5 @@ export const SessionCredentialsSchema = merge([
   }),
 ]);
 
-export type SpotifyCredentials = Input<typeof SpotifyCredentialsSchema>;
-export type SessionCredentials = Input<typeof SessionCredentialsSchema>;
+export type SpotifyCredentials = InferInput<typeof SpotifyCredentialsSchema>;
+export type SessionCredentials = InferInput<typeof SessionCredentialsSchema>;

@@ -1,4 +1,4 @@
-import { createCookieSessionStorage, redirect } from '@remix-run/node';
+import { createCookieSessionStorage, redirect } from 'react-router';
 import invariant from 'tiny-invariant';
 import { safeParse } from 'valibot';
 import type { SessionCredentials } from './spotify/auth/spotify.utils';

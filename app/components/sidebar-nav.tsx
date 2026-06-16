@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { NavLink } from '@remix-run/react';
+import { NavLink } from 'react-router';
 import type { LucideIcon } from 'lucide-react';
 import { Home, Search, Users } from 'lucide-react';
 
